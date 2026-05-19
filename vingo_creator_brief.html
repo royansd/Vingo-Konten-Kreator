@@ -1,0 +1,767 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>VINGO — Creator Brief</title>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,600;1,400&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --ink: #111110;
+    --ink2: #4a4a47;
+    --ink3: #8a8a85;
+    --bg: #f7f5f0;
+    --bg2: #efecea;
+    --bg3: #ffffff;
+    --border: rgba(0,0,0,0.09);
+    --radius: 12px;
+    --accent: #3d6b4f;
+    --accent2: #c4773a;
+    --purple: #5B2D8E;
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body { font-family: 'DM Sans', sans-serif; background: var(--bg); color: var(--ink); padding: 0; }
+
+  /* NAV */
+  .nav { position: sticky; top: 0; background: rgba(247,245,240,0.95); backdrop-filter: blur(8px); border-bottom: 0.5px solid var(--border); padding: 12px 32px; display: flex; gap: 6px; flex-wrap: wrap; z-index: 100; }
+  .nav-btn { font-size: 12px; padding: 5px 12px; border-radius: 20px; border: 0.5px solid var(--border); background: transparent; color: var(--ink2); cursor: pointer; font-family: inherit; transition: all .15s; }
+  .nav-btn:hover, .nav-btn.active { background: var(--ink); color: #fff; border-color: var(--ink); }
+
+  /* SECTIONS */
+  .section { max-width: 900px; margin: 0 auto; padding: 48px 32px; display: none; }
+  .section.active { display: block; }
+
+  /* TYPOGRAPHY */
+  .eyebrow { font-size: 11px; font-weight: 500; letter-spacing: .12em; text-transform: uppercase; color: var(--ink3); margin-bottom: 10px; }
+  h1 { font-family: 'Cormorant Garamond', serif; font-size: 40px; font-weight: 600; line-height: 1.1; margin-bottom: 14px; }
+  h2 { font-family: 'Cormorant Garamond', serif; font-size: 28px; font-weight: 600; margin-bottom: 12px; }
+  h3 { font-size: 15px; font-weight: 500; margin-bottom: 8px; }
+  p { font-size: 14px; color: var(--ink2); line-height: 1.75; margin-bottom: 14px; }
+  p:last-child { margin-bottom: 0; }
+
+  /* CARDS */
+  .card { background: var(--bg3); border: 0.5px solid var(--border); border-radius: var(--radius); padding: 20px 24px; margin-bottom: 14px; }
+  .card-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; margin-bottom: 14px; }
+  .card-3 { display: grid; grid-template-columns: repeat(3, 1fr); gap: 14px; margin-bottom: 14px; }
+  .card-sm { background: var(--bg2); border-radius: 8px; padding: 14px 16px; }
+
+  /* BADGES */
+  .badge { display: inline-block; font-size: 10px; font-weight: 500; padding: 2px 9px; border-radius: 20px; margin-bottom: 8px; letter-spacing: .03em; }
+  .badge-green { background: #e1ede6; color: #1D5C3A; }
+  .badge-amber { background: #faeeda; color: #633806; }
+  .badge-blue { background: #E6F1FB; color: #0C447C; }
+  .badge-purple { background: #F0E6FA; color: #5B2D8E; }
+  .badge-red { background: #FAECE7; color: #712B13; }
+  .badge-ink { background: var(--ink); color: #fff; }
+
+  /* SECTION LABEL */
+  .slabel { font-size: 11px; font-weight: 500; text-transform: uppercase; letter-spacing: .06em; color: var(--ink3); margin: 0 0 12px; }
+
+  /* DIVIDER */
+  hr { border: none; border-top: 0.5px solid var(--border); margin: 28px 0; }
+
+  /* SCRIPT BLOCK */
+  .script-block { margin-bottom: 16px; }
+  .script-tag { font-size: 10px; font-weight: 500; text-transform: uppercase; letter-spacing: .08em; margin-bottom: 5px; }
+  .tag-hook { color: #1D9E75; }
+  .tag-conflict { color: #A32D2D; }
+  .tag-bridge { color: #185FA5; }
+  .tag-solution { color: #2471a3; }
+  .tag-cta { color: #854F0B; }
+  .script-text { font-size: 13px; line-height: 1.75; color: var(--ink); }
+  .visual-note { font-size: 11px; color: var(--ink3); font-style: italic; background: var(--bg2); border-radius: 6px; padding: 6px 10px; margin-top: 6px; border-left: 2px solid var(--border); }
+
+  /* CONCEPT HEADER */
+  .concept-header { display: flex; align-items: flex-start; gap: 14px; margin-bottom: 20px; }
+  .concept-num { width: 36px; height: 36px; border-radius: 50%; background: var(--ink); color: #fff; font-size: 15px; font-weight: 500; display: flex; align-items: center; justify-content: center; flex-shrink: 0; }
+  .concept-info .concept-cat { font-size: 11px; text-transform: uppercase; letter-spacing: .08em; color: var(--ink3); margin-bottom: 3px; }
+  .concept-info h2 { font-size: 24px; margin-bottom: 4px; }
+  .concept-info .concept-sub { font-size: 13px; color: var(--ink2); font-style: italic; }
+
+  /* DO/DON'T */
+  .do-dont { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-bottom: 14px; }
+  .do-box { background: #EAF3DE; border-radius: 8px; padding: 12px 14px; }
+  .dont-box { background: #FAECE7; border-radius: 8px; padding: 12px 14px; }
+  .do-label { font-size: 10px; font-weight: 500; text-transform: uppercase; letter-spacing: .06em; margin-bottom: 6px; color: #1D5C3A; }
+  .dont-label { font-size: 10px; font-weight: 500; text-transform: uppercase; letter-spacing: .06em; margin-bottom: 6px; color: #712B13; }
+  .do-list, .dont-list { list-style: none; padding: 0; margin: 0; }
+  .do-list li, .dont-list li { font-size: 12px; color: var(--ink); padding: 3px 0; display: flex; gap: 6px; line-height: 1.5; }
+  .do-list li::before { content: '✓'; color: #1D9E75; flex-shrink: 0; font-weight: 600; }
+  .dont-list li::before { content: '✗'; color: #A32D2D; flex-shrink: 0; font-weight: 600; }
+
+  /* FORMAT ROW */
+  .format-row { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; }
+  .format-card { background: var(--bg3); border: 0.5px solid var(--border); border-radius: var(--radius); overflow: hidden; }
+  .format-header { padding: 10px 16px; background: var(--bg2); border-bottom: 0.5px solid var(--border); display: flex; align-items: center; gap: 8px; }
+  .format-pill { font-size: 10px; font-weight: 500; padding: 2px 9px; border-radius: 20px; }
+  .pill-reels { background: #e1ede6; color: #2a5038; }
+  .pill-vo { background: #E6F1FB; color: #0C447C; }
+  .format-body { padding: 16px; }
+
+  /* CAPTION */
+  .caption-text { font-size: 13px; line-height: 1.85; color: var(--ink); white-space: pre-line; }
+
+  /* TIMELINE */
+  .timeline { list-style: none; padding: 0; margin: 0; }
+  .timeline li { display: flex; gap: 14px; padding-bottom: 18px; position: relative; }
+  .timeline li::before { content: ''; position: absolute; left: 14px; top: 28px; bottom: 0; width: 0.5px; background: var(--border); }
+  .timeline li:last-child::before { display: none; }
+  .tl-dot { width: 28px; height: 28px; border-radius: 50%; background: var(--ink); color: #fff; font-size: 11px; font-weight: 500; display: flex; align-items: center; justify-content: center; flex-shrink: 0; }
+  .tl-content { flex: 1; }
+  .tl-title { font-size: 13px; font-weight: 500; color: var(--ink); margin-bottom: 3px; }
+  .tl-desc { font-size: 12px; color: var(--ink2); line-height: 1.6; }
+
+  /* UTM TABLE */
+  .utm-table { width: 100%; border-collapse: collapse; font-size: 12px; margin-bottom: 14px; }
+  .utm-table th { text-align: left; padding: 8px 12px; background: var(--bg2); font-weight: 500; font-size: 11px; color: var(--ink2); }
+  .utm-table td { padding: 8px 12px; border-top: 0.5px solid var(--border); color: var(--ink); font-family: monospace; font-size: 11px; }
+  .utm-table tr:hover td { background: var(--bg2); }
+
+  @media (max-width: 640px) {
+    .card-grid, .card-3, .do-dont, .format-row { grid-template-columns: 1fr; }
+    .section { padding: 32px 20px; }
+    h1 { font-size: 28px; }
+    .nav { padding: 10px 16px; }
+  }
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav class="nav">
+  <button class="nav-btn active" onclick="show('brand')">① Brand Brief</button>
+  <button class="nav-btn" onclick="show('mindset')">② Kerangka Pikir</button>
+  <button class="nav-btn" onclick="show('concept-1')">③ Konsep: Pain</button>
+  <button class="nav-btn" onclick="show('concept-2')">④ Konsep: Fitur</button>
+  <button class="nav-btn" onclick="show('concept-3')">⑤ Konsep: Konflik</button>
+  <button class="nav-btn" onclick="show('production')">⑥ Produksi & UTM</button>
+</nav>
+
+<!-- ① BRAND BRIEF -->
+<div class="section active" id="brand">
+  <div class="eyebrow">VINGO · Creator Brief · Bagian 1 dari 6</div>
+  <h1>Kenalan dulu sama VINGO</h1>
+  <p>Dokumen ini adalah semua yang perlu kamu tahu sebelum mulai buat konten. Baca dari awal sampai akhir — baru mulai syuting.</p>
+
+  <hr>
+
+  <div class="slabel">Apa itu VINGO?</div>
+  <div class="card">
+    <p style="font-size:16px;color:var(--ink);line-height:1.8;margin-bottom:16px"><strong>VINGO adalah platform self-discovery berbasis AI dari Indonesia.</strong> Bukan aplikasi motivasi. Bukan tracker kebiasaan. Bukan kursus online.</p>
+    <p>VINGO adalah tempat orang akhirnya bisa kenal diri mereka sendiri — lebih dalam, lebih jujur — dengan panduan yang personal dan tidak generik. Pendekatannya berbasis AI yang menyesuaikan dengan siapa penggunanya, bukan template satu ukuran untuk semua.</p>
+  </div>
+
+  <div class="slabel">Satu kalimat yang harus kamu pegang</div>
+  <div class="card" style="background:var(--ink);color:#fff;">
+    <p style="font-size:18px;color:#fff;line-height:1.6;text-align:center;font-family:'Cormorant Garamond',serif;font-style:italic">"VINGO bukan untuk membuatmu lebih produktif. VINGO untuk membuatmu lebih kenal dirimu sendiri."</p>
+  </div>
+
+  <hr>
+
+  <div class="slabel">Model bisnis</div>
+  <div class="card-3">
+    <div class="card-sm">
+      <span class="badge badge-green">Free</span>
+      <h3>Gratis</h3>
+      <p style="font-size:12px">Siapapun bisa daftar dan mulai. Ada fitur dasar yang bisa langsung dipakai.</p>
+    </div>
+    <div class="card-sm">
+      <span class="badge badge-amber">Premium</span>
+      <h3>Upgrade</h3>
+      <p style="font-size:12px">Fitur lebih dalam, lebih personal. Dibayar — untuk yang sudah siap lebih serius.</p>
+    </div>
+    <div class="card-sm">
+      <span class="badge badge-blue">AI</span>
+      <h3>Personalized</h3>
+      <p style="font-size:12px">Bukan tes standar. AI-nya menyesuaikan dengan input dan pola tiap user.</p>
+    </div>
+  </div>
+
+  <hr>
+
+  <div class="slabel">Siapa yang pakai VINGO?</div>
+  <div class="card-grid">
+    <div class="card-sm">
+      <h3 style="margin-bottom:6px">Demografis</h3>
+      <p style="font-size:12px">Gen Z dan Milenial Indonesia. 17–32 tahun. Aktif di media sosial. Aware soal self-improvement tapi sering merasa konten self-dev yang ada terlalu generik atau terlalu hype.</p>
+    </div>
+    <div class="card-sm">
+      <h3 style="margin-bottom:6px">Psikografis</h3>
+      <p style="font-size:12px">Orang yang ngerasa stuck, bingung arah hidup, atau merasa "beda" dari lingkungannya. Mereka bukan malas — mereka belum ketemu versi diri yang paling jelas.</p>
+    </div>
+  </div>
+
+  <hr>
+
+  <div class="slabel">Data pengguna VINGO saat ini</div>
+  <div class="card-3">
+    <div class="card-sm" style="text-align:center">
+      <div style="font-size:28px;font-weight:500;color:var(--ink)">7.890</div>
+      <div style="font-size:12px;color:var(--ink3)">Total user terdaftar</div>
+    </div>
+    <div class="card-sm" style="text-align:center">
+      <div style="font-size:28px;font-weight:500;color:var(--ink)">98</div>
+      <div style="font-size:12px;color:var(--ink3)">User premium aktif</div>
+    </div>
+    <div class="card-sm" style="text-align:center">
+      <div style="font-size:28px;font-weight:500;color:var(--ink)">Maret '26</div>
+      <div style="font-size:12px;color:var(--ink3)">Bulan registrasi tertinggi</div>
+    </div>
+  </div>
+
+  <hr>
+
+  <div class="slabel">Yang VINGO bukan</div>
+  <div class="card">
+    <div style="display:flex;flex-wrap:wrap;gap:8px">
+      <span class="badge badge-red">❌ Bukan aplikasi meditasi</span>
+      <span class="badge badge-red">❌ Bukan kursus online</span>
+      <span class="badge badge-red">❌ Bukan konten motivasi</span>
+      <span class="badge badge-red">❌ Bukan MBTI / tes kepribadian biasa</span>
+      <span class="badge badge-red">❌ Bukan productivity tracker</span>
+      <span class="badge badge-red">❌ Bukan self-help generik</span>
+    </div>
+    <p style="margin-top:12px;font-size:13px">Ini penting karena market sudah banjir konten self-improvement yang terasa sama semua. VINGO masuk dari sudut yang berbeda — bukan tentang apa yang harus kamu lakukan, tapi tentang siapa kamu sebenarnya.</p>
+  </div>
+</div>
+
+<!-- ② KERANGKA PIKIR -->
+<div class="section" id="mindset">
+  <div class="eyebrow">VINGO · Creator Brief · Bagian 2 dari 6</div>
+  <h1>Kerangka berpikir konten VINGO</h1>
+  <p>Sebelum mulai buat konten, pahami dulu cara berpikir di balik semua konsep iklan VINGO. Ini yang jadi fondasi — bukan hanya untuk satu video, tapi untuk semua konten yang akan dibuat.</p>
+
+  <hr>
+
+  <div class="slabel">Prinsip utama</div>
+  <div class="card" style="border-left: 3px solid var(--ink);">
+    <h3 style="font-size:18px;font-family:'Cormorant Garamond',serif;font-weight:600;margin-bottom:10px">"If you're selling to confused people, just be clear — and sell a better version of their life."</h3>
+    <p style="font-size:13px">Audience VINGO adalah orang yang bingung. Bukan bodoh — tapi bingung. Tugas konten kita bukan menjelaskan fitur. Tugas kita adalah membuat mereka ngerasa: <em>"ini gue banget"</em> — lalu tunjukkan bahwa ada jalan keluarnya.</p>
+  </div>
+
+  <hr>
+
+  <div class="slabel">Framework konten: 4 langkah</div>
+  <ul class="timeline">
+    <li>
+      <div class="tl-dot">1</div>
+      <div class="tl-content">
+        <div class="tl-title">MIRROR — Cerminkan realita mereka</div>
+        <div class="tl-desc">Buka dengan situasi atau perasaan yang langsung bikin mereka berhenti scroll. Bukan "tahukah kamu..." — tapi "pernah ngerasa..." atau "ini yang terjadi ketika...". Mereka harus merasa: ini tentang aku.</div>
+      </div>
+    </li>
+    <li>
+      <div class="tl-dot">2</div>
+      <div class="tl-content">
+        <div class="tl-title">VALIDATE — Validasi, jangan salahkan</div>
+        <div class="tl-desc">Jangan bilang mereka salah, malas, atau kurang usaha. Validasi bahwa perasaan itu nyata dan masuk akal. "Bukan karena kamu tidak mau maju. Tapi karena kamu belum punya alat yang tepat." Ini yang bikin orang lanjut nonton.</div>
+      </div>
+    </li>
+    <li>
+      <div class="tl-dot">3</div>
+      <div class="tl-content">
+        <div class="tl-title">REFRAME — Ubah cara pandang masalahnya</div>
+        <div class="tl-desc">Ini bagian paling penting. Masalah mereka bukan "kurang motivasi" atau "kurang disiplin" — masalahnya adalah belum kenal diri sendiri cukup dalam. VINGO masuk di sini sebagai jawaban atas akar masalah, bukan gejalanya.</div>
+      </div>
+    </li>
+    <li>
+      <div class="tl-dot">4</div>
+      <div class="tl-content">
+        <div class="tl-title">INVITE — Ajak, bukan paksa</div>
+        <div class="tl-desc">CTA VINGO tidak agresif. Bukan "beli sekarang!" tapi "mulai dari sini" atau "mungkin ini yang selama ini kamu cari." Tone-nya seperti teman yang menawarkan sesuatu — bukan salesman yang mengejar.</div>
+      </div>
+    </li>
+  </ul>
+
+  <hr>
+
+  <div class="slabel">Tone & karakter konten</div>
+  <div class="do-dont">
+    <div class="do-box">
+      <div class="do-label">✓ Lakukan ini</div>
+      <ul class="do-list">
+        <li>Bicara seperti teman yang jujur</li>
+        <li>Tenang, tidak terburu-buru</li>
+        <li>Spesifik dan konkret (situasi nyata)</li>
+        <li>Validasi perasaan audience dulu</li>
+        <li>Ending yang membuka pintu, bukan memaksa masuk</li>
+        <li>Visual yang sunyi dan personal</li>
+      </ul>
+    </div>
+    <div class="dont-box">
+      <div class="dont-label">✗ Hindari ini</div>
+      <ul class="dont-list">
+        <li>Tone motivator yang terlalu hype</li>
+        <li>Kalimat klise: "jadilah versi terbaik dirimu!"</li>
+        <li>Menyalahkan audience atau lingkungannya</li>
+        <li>Terlalu banyak fitur dalam satu video</li>
+        <li>Background musik yang semangat / uplifting</li>
+        <li>Stock photo orang tersenyum bahagia</li>
+      </ul>
+    </div>
+  </div>
+
+  <hr>
+
+  <div class="slabel">3 konsep yang akan dibuat</div>
+  <div class="card-3">
+    <div class="card-sm">
+      <span class="badge badge-red">Konsep A</span>
+      <h3>Pain & Konflik</h3>
+      <p style="font-size:12px">Masuk dari situasi nyata yang painful — keluarga, circle pertemanan, ngerasa stuck. Paling emosional, paling tinggi stop-rate-nya.</p>
+    </div>
+    <div class="card-sm">
+      <span class="badge badge-purple">Konsep B</span>
+      <h3>Fitur VINGO</h3>
+      <p style="font-size:12px">Tunjukkan apa yang bisa dilakukan VINGO — tapi dibungkus dengan konteks masalah, bukan demo produk dingin.</p>
+    </div>
+    <div class="card-sm">
+      <span class="badge badge-blue">Konsep C</span>
+      <h3>Identitas Baru</h3>
+      <p style="font-size:12px">Jual versi diri yang lebih baik — bukan fitur, bukan solusi teknis. "Siapa kamu setelah pakai VINGO" yang jadi pesan utama.</p>
+    </div>
+  </div>
+</div>
+
+<!-- ③ KONSEP: PAIN -->
+<div class="section" id="concept-1">
+  <div class="eyebrow">VINGO · Creator Brief · Bagian 3 dari 6</div>
+
+  <div class="concept-header">
+    <div class="concept-num">A</div>
+    <div class="concept-info">
+      <div class="concept-cat">Konsep iklan pertama</div>
+      <h2>Pain & Konflik Nyata</h2>
+      <div class="concept-sub">Masuk dari situasi yang sudah mereka rasakan — bukan pain abstrak</div>
+    </div>
+  </div>
+
+  <div class="card" style="border-left:3px solid #A32D2D">
+    <p style="font-size:13px"><strong>Kenapa konsep ini:</strong> Data iklan VINGO menunjukkan engagement tertinggi datang dari konten yang menyentuh konflik spesifik — dibanding-bandingin keluarga, ngerasa beda sama circle, atau melihat teman-teman "maju" sementara diri sendiri stuck. Orang berhenti scroll ketika mereka ngerasa: "ini gue banget."</p>
+  </div>
+
+  <hr>
+
+  <div class="slabel">Variasi A1 — Keluarga: dibanding-bandingin</div>
+  <div class="format-row">
+    <div class="format-card">
+      <div class="format-header"><span class="format-pill pill-reels">Talking Head · 20–25 detik</span></div>
+      <div class="format-body">
+        <div class="script-block">
+          <div class="script-tag tag-hook">Hook (0–3 detik)</div>
+          <div class="script-text">"Pernah denger kalimat ini dari orang rumah — 'kok adikmu bisa, kamu kenapa?'"</div>
+          <div class="visual-note">Langsung tatap kamera. Ekspresi datar, bukan dramatis. Pause sebentar setelah kalimat ini.</div>
+        </div>
+        <div class="script-block">
+          <div class="script-tag tag-conflict">Konflik</div>
+          <div class="script-text">"Dan kamu diam. Bukan karena ga punya jawaban. Tapi karena dalam hati kamu juga nanya hal yang sama ke diri sendiri."</div>
+        </div>
+        <div class="script-block">
+          <div class="script-tag tag-bridge">Reframe</div>
+          <div class="script-text">"Bukan kamu yang kurang. Kamu cuma selama ini diukur pakai penggaris milik orang lain."</div>
+        </div>
+        <div class="script-block">
+          <div class="script-tag tag-solution">VINGO</div>
+          <div class="script-text">"VINGO bantu kamu ketemu ukuranmu sendiri. Bukan standar orang lain."</div>
+          <div class="visual-note">Bisa sambil buka aplikasi di tangan — natural, bukan demonstrasi.</div>
+        </div>
+        <div class="script-block">
+          <div class="script-tag tag-cta">CTA</div>
+          <div class="script-text">"Mulai gratis. Link di bio."</div>
+        </div>
+      </div>
+    </div>
+    <div class="format-card">
+      <div class="format-header"><span class="format-pill pill-vo">Voiceover + Teks · 15–20 detik</span></div>
+      <div class="format-body">
+        <div class="script-block">
+          <div class="script-tag tag-hook">Visual opening</div>
+          <div class="script-text">Teks muncul pelan: <em>"Dibanding-bandingin itu lukanya bukan di telinga."</em></div>
+          <div class="visual-note">Background gelap atau footage abstrak — bukan foto keluarga. VO membaca teks dengan nada tenang.</div>
+        </div>
+        <div class="script-block">
+          <div class="script-tag tag-bridge">Body</div>
+          <div class="script-text">VO: "Lukanya di dalam. Di bagian yang akhirnya mulai percaya — mungkin memang ada yang kurang dari aku."</div>
+        </div>
+        <div class="script-block">
+          <div class="script-tag tag-solution">Offer</div>
+          <div class="script-text">VO: "VINGO adalah tempat kamu ketemu dirimu sendiri. Bukan versi yang diharapkan orang lain."</div>
+        </div>
+        <div class="script-block">
+          <div class="script-tag tag-cta">End card</div>
+          <div class="script-text">Teks: "Mulai gratis — vingo.id"</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <hr>
+
+  <div class="slabel">Variasi A2 — Pertemanan: ngerasa beda dari circle</div>
+  <div class="format-row">
+    <div class="format-card">
+      <div class="format-header"><span class="format-pill pill-reels">Talking Head · 20–25 detik</span></div>
+      <div class="format-body">
+        <div class="script-block">
+          <div class="script-tag tag-hook">Hook</div>
+          <div class="script-text">"Pernah ngerasa sendirian — padahal lagi bareng teman-teman?"</div>
+          <div class="visual-note">Pause. Biarkan pertanyaan ini menggantung. Jangan langsung jawab.</div>
+        </div>
+        <div class="script-block">
+          <div class="script-tag tag-conflict">Konflik</div>
+          <div class="script-text">"Bukan berarti mereka salah. Bukan berarti kamu salah. Tapi ada yang bergeser — dan makin susah jadi diri sendiri di antara mereka."</div>
+        </div>
+        <div class="script-block">
+          <div class="script-tag tag-bridge">Reframe</div>
+          <div class="script-text">"Itu bukan tanda kamu antisosial. Itu tanda ada bagian dari dirimu yang lagi tumbuh — dan belum ketemu tempatnya."</div>
+        </div>
+        <div class="script-block">
+          <div class="script-tag tag-solution">VINGO</div>
+          <div class="script-text">"VINGO bantu kamu kenali bagian itu. Supaya kamu tahu — ini siapa aku, dan ke mana aku mau pergi."</div>
+        </div>
+        <div class="script-block">
+          <div class="script-tag tag-cta">CTA</div>
+          <div class="script-text">"Mulai sendiri. Untuk dirimu sendiri."</div>
+        </div>
+      </div>
+    </div>
+    <div class="format-card">
+      <div class="format-header"><span class="format-pill pill-vo">Voiceover + Teks · 15–20 detik</span></div>
+      <div class="format-body">
+        <div class="script-block">
+          <div class="script-tag tag-hook">Opening teks</div>
+          <div class="script-text">"Ada yang udah lama ngerasa beda dari orang-orang di sekitarnya."</div>
+          <div class="visual-note">Footage seseorang di keramaian tapi terlihat dalam pikiran sendiri. Atau teks on-screen minimalis.</div>
+        </div>
+        <div class="script-block">
+          <div class="script-tag tag-bridge">Body VO</div>
+          <div class="script-text">"Bukan karena salah pilih teman. Tapi karena ada bagian dari dirimu yang lagi tumbuh — yang belum ketemu nama dan tempatnya."</div>
+        </div>
+        <div class="script-block">
+          <div class="script-tag tag-solution">Offer</div>
+          <div class="script-text">"VINGO adalah tempat kamu mulai dari situ. Pelan-pelan. Tanpa harus menjelaskan apapun ke siapapun."</div>
+        </div>
+        <div class="script-block">
+          <div class="script-tag tag-cta">End card</div>
+          <div class="script-text">"Coba gratis — vingo.id"</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ④ KONSEP: FITUR -->
+<div class="section" id="concept-2">
+  <div class="eyebrow">VINGO · Creator Brief · Bagian 4 dari 6</div>
+
+  <div class="concept-header">
+    <div class="concept-num">B</div>
+    <div class="concept-info">
+      <div class="concept-cat">Konsep iklan kedua</div>
+      <h2>Fitur VINGO — tapi dibungkus masalah</h2>
+      <div class="concept-sub">Jangan demo produk. Tunjukkan fitur lewat konteks masalah nyata.</div>
+    </div>
+  </div>
+
+  <div class="card" style="border-left:3px solid var(--purple)">
+    <p style="font-size:13px"><strong>Prinsip penting:</strong> Orang tidak beli fitur. Orang beli perubahan yang ditawarkan fitur itu. Jadi setiap kali menampilkan fitur VINGO, mulai dari <em>masalah dulu</em> — baru tunjukkan bahwa fitur ini adalah jawabannya. Bukan sebaliknya.</p>
+  </div>
+
+  <hr>
+
+  <div class="slabel">Variasi B1 — AI yang personal, bukan generik</div>
+  <div class="format-row">
+    <div class="format-card">
+      <div class="format-header"><span class="format-pill pill-reels">Talking Head · 20–25 detik</span></div>
+      <div class="format-body">
+        <div class="script-block">
+          <div class="script-tag tag-hook">Hook</div>
+          <div class="script-text">"Udah baca puluhan artikel self-improvement. Hasilnya sama aja. Tau kenapa?"</div>
+        </div>
+        <div class="script-block">
+          <div class="script-tag tag-conflict">Masalah</div>
+          <div class="script-text">"Karena semua itu ditulis untuk orang rata-rata. Bukan untuk kamu yang spesifik — dengan latar belakang, pola pikir, dan situasi yang kamu punya."</div>
+        </div>
+        <div class="script-block">
+          <div class="script-tag tag-solution">Fitur</div>
+          <div class="script-text">"VINGO pakai AI yang beneran menyesuaikan sama kamu. Bukan template. Bukan jawaban yang sama untuk semua orang."</div>
+          <div class="visual-note">Tampilkan screen VINGO sebentar — tunjukkan antarmuka yang personal, bukan fitur list. Screen recording 2–3 detik cukup.</div>
+        </div>
+        <div class="script-block">
+          <div class="script-tag tag-cta">CTA</div>
+          <div class="script-text">"Coba bedanya. Gratis dulu."</div>
+        </div>
+      </div>
+    </div>
+    <div class="format-card">
+      <div class="format-header"><span class="format-pill pill-vo">Voiceover + Screen Recording</span></div>
+      <div class="format-body">
+        <div class="script-block">
+          <div class="script-tag tag-hook">Hook visual</div>
+          <div class="script-text">Screen recording VINGO dari awal onboarding. VO: "Ini bukan tes kepribadian biasa."</div>
+          <div class="visual-note">Rekam layar dari proses onboarding VINGO secara natural — scroll pelan, bukan cepat. Tunjukkan pertanyaan-pertanyaan yang personal.</div>
+        </div>
+        <div class="script-block">
+          <div class="script-tag tag-solution">Penjelasan</div>
+          <div class="script-text">VO: "VINGO menyesuaikan sama kamu — bukan sebaliknya. AI-nya belajar dari jawaban dan pola yang kamu berikan."</div>
+        </div>
+        <div class="script-block">
+          <div class="script-tag tag-cta">End</div>
+          <div class="script-text">VO: "Daftar gratis. Lihat apa yang muncul tentang dirimu." Teks: vingo.id</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <hr>
+
+  <div class="slabel">Variasi B2 — Free vs Premium: ada yang terkunci</div>
+  <div class="format-row">
+    <div class="format-card">
+      <div class="format-header"><span class="format-pill pill-reels">Talking Head · 20 detik</span></div>
+      <div class="format-body">
+        <div class="script-block">
+          <div class="script-tag tag-hook">Hook</div>
+          <div class="script-text">"Kamu udah daftar VINGO. Udah mulai kenalan sama diri sendiri. Tapi ada satu bagian yang masih terkunci."</div>
+        </div>
+        <div class="script-block">
+          <div class="script-tag tag-conflict">Tension</div>
+          <div class="script-text">"Bagian yang biasanya jadi akar dari semua pola yang kamu bawa-bawa. Yang susah dijelasin ke orang lain tapi kamu ngerti banget rasanya."</div>
+        </div>
+        <div class="script-block">
+          <div class="script-tag tag-cta">CTA</div>
+          <div class="script-text">"Premium buka itu. Kalau kamu rasa sudah waktunya."</div>
+          <div class="visual-note">Untuk retargeting user free. Tone-nya tidak memaksa — justru memberi rasa bahwa ini keputusan mereka.</div>
+        </div>
+      </div>
+    </div>
+    <div class="format-card">
+      <div class="format-header"><span class="format-pill pill-vo">Voiceover + Teks · 15 detik</span></div>
+      <div class="format-body">
+        <div class="script-block">
+          <div class="script-tag tag-hook">Opening</div>
+          <div class="script-text">Teks: "Kamu sudah sampai sejauh ini." Pause. "Ada yang lebih dalam lagi."</div>
+        </div>
+        <div class="script-block">
+          <div class="script-tag tag-solution">Value</div>
+          <div class="script-text">VO: "Fitur premium VINGO buka bagian yang selama ini jadi titik buta kamu tentang dirimu sendiri."</div>
+        </div>
+        <div class="script-block">
+          <div class="script-tag tag-cta">End</div>
+          <div class="script-text">Teks: "Upgrade — vingo.id"</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ⑤ KONSEP: IDENTITAS BARU -->
+<div class="section" id="concept-3">
+  <div class="eyebrow">VINGO · Creator Brief · Bagian 5 dari 6</div>
+
+  <div class="concept-header">
+    <div class="concept-num">C</div>
+    <div class="concept-info">
+      <div class="concept-cat">Konsep iklan ketiga</div>
+      <h2>Jual versi diri yang lebih baik</h2>
+      <div class="concept-sub">Bukan produknya yang dijual — tapi siapa mereka setelah menggunakannya</div>
+    </div>
+  </div>
+
+  <div class="card" style="border-left:3px solid #185FA5">
+    <p style="font-size:13px"><strong>Prinsip:</strong> Orang tidak beli VINGO. Mereka beli kejelasan. Mereka beli perasaan akhirnya kenal diri sendiri. Mereka beli versi diri yang tidak lagi bingung. Konten konsep C fokus pada transformasi identitas — sebelum dan sesudah — bukan fitur atau pain.</p>
+  </div>
+
+  <hr>
+
+  <div class="slabel">Variasi C1 — Dari bingung ke clarity</div>
+  <div class="format-row">
+    <div class="format-card">
+      <div class="format-header"><span class="format-pill pill-reels">Talking Head · 20–25 detik</span></div>
+      <div class="format-body">
+        <div class="script-block">
+          <div class="script-tag tag-hook">Hook — kondisi before</div>
+          <div class="script-text">"Dulu aku orangnya gampang ikut-ikutan. Bukan karena ga punya pendirian — tapi karena aku sendiri ga tahu aku maunya apa."</div>
+          <div class="visual-note">Bicara jujur, personal. Bukan akting. Bisa pakai pengalaman nyata kreator atau diframing sebagai cerita umum.</div>
+        </div>
+        <div class="script-block">
+          <div class="script-tag tag-bridge">Titik balik</div>
+          <div class="script-text">"Sampai akhirnya aku mulai nanya ke diri sendiri beneran — bukan cari jawaban dari luar, tapi dari dalam."</div>
+        </div>
+        <div class="script-block">
+          <div class="script-tag tag-solution">After</div>
+          <div class="script-text">"VINGO bantu aku ngerjain itu. Pelan-pelan. Dan bedanya kerasa — bukan karena aku jadi lebih produktif, tapi karena aku akhirnya ngerti aku siapa."</div>
+        </div>
+        <div class="script-block">
+          <div class="script-tag tag-cta">CTA</div>
+          <div class="script-text">"Kalau kamu ngerasa di titik yang sama — ini worth dicoba. Gratis dulu."</div>
+        </div>
+      </div>
+    </div>
+    <div class="format-card">
+      <div class="format-header"><span class="format-pill pill-vo">Voiceover + Visual Contrast</span></div>
+      <div class="format-body">
+        <div class="script-block">
+          <div class="script-tag tag-hook">Before — visual gelap</div>
+          <div class="script-text">VO: "Ada versi dirimu yang bingung, ikut-ikutan, dan tidak tahu mau ke mana."</div>
+          <div class="visual-note">Visual: footage atau teks di background gelap. Nada VO pelan dan empati.</div>
+        </div>
+        <div class="script-block">
+          <div class="script-tag tag-solution">After — visual terang</div>
+          <div class="script-text">VO: "Dan ada versi dirimu yang akhirnya tahu. Yang tidak perlu validasi dari luar karena sudah cukup kenal dirinya dari dalam."</div>
+          <div class="visual-note">Transisi ke visual yang lebih terang — bukan bahagia berlebihan, tapi tenang dan punya arah.</div>
+        </div>
+        <div class="script-block">
+          <div class="script-tag tag-cta">Bridge</div>
+          <div class="script-text">VO: "Jarak antara keduanya adalah seberapa dalam kamu mau kenal dirimu sendiri. VINGO bantu kamu mulai dari sana."</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <hr>
+
+  <div class="slabel">Variasi C2 — Dini hari, overthinking angle</div>
+  <div class="format-row">
+    <div class="format-card">
+      <div class="format-header"><span class="format-pill pill-reels">Talking Head · 15–20 detik</span></div>
+      <div class="format-body">
+        <div class="script-block">
+          <div class="script-tag tag-hook">Hook — situasional</div>
+          <div class="script-text">"Kalau kamu nonton ini jam segini — kamu pasti lagi mikir sesuatu."</div>
+          <div class="visual-note">Rekam dengan pencahayaan redup. Jam malam. Bukan setup studio. Justru lebih authentic kalau terlihat casual dan natural.</div>
+        </div>
+        <div class="script-block">
+          <div class="script-tag tag-conflict">Resonansi</div>
+          <div class="script-text">"Dan mungkin bukan pertama kalinya. Pikiran yang sama. Pertanyaan yang sama. Tentang hidup, tentang diri sendiri."</div>
+        </div>
+        <div class="script-block">
+          <div class="script-tag tag-solution">VINGO</div>
+          <div class="script-text">"VINGO bukan motivasi. Ini tempat kamu mulai menjawab pertanyaan itu — dengan cara yang beneran kamu pahami."</div>
+        </div>
+        <div class="script-block">
+          <div class="script-tag tag-cta">CTA</div>
+          <div class="script-text">"Kalau momen ini terasa familiar — mungkin sudah waktunya."</div>
+        </div>
+      </div>
+    </div>
+    <div class="format-card">
+      <div class="format-header"><span class="format-pill pill-vo">Teks on-screen · 15 detik</span></div>
+      <div class="format-body">
+        <div class="script-block">
+          <div class="script-tag tag-hook">Teks 1</div>
+          <div class="script-text">"Kalau kamu baca ini jam segini..."</div>
+        </div>
+        <div class="script-block">
+          <div class="script-tag tag-conflict">Teks 2</div>
+          <div class="script-text">"...kamu pasti lagi mikirin sesuatu yang udah lama ga ketemu jawabannya."</div>
+        </div>
+        <div class="script-block">
+          <div class="script-tag tag-solution">Teks 3</div>
+          <div class="script-text">"VINGO adalah tempat kamu mulai dari pertanyaan itu."</div>
+        </div>
+        <div class="script-block">
+          <div class="script-tag tag-cta">End</div>
+          <div class="script-text">"Gratis. Malam ini bisa jadi titik baliknya."</div>
+          <div class="visual-note">Khusus dijadwalkan tayang jam 22.00–05.00 WIB. Jangan ubah tone jadi hype — justru kekuatannya dari ketenangan.</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ⑥ PRODUKSI & UTM -->
+<div class="section" id="production">
+  <div class="eyebrow">VINGO · Creator Brief · Bagian 6 dari 6</div>
+  <h1>Panduan produksi & tracking</h1>
+
+  <hr>
+
+  <div class="slabel">Checklist sebelum syuting</div>
+  <div class="card">
+    <ul class="do-list" style="list-style:none;padding:0;margin:0">
+      <li>Baca brand brief (Bagian 1) dan pahami apa yang VINGO bukan</li>
+      <li>Tentukan satu variasi yang mau dibuat — jangan mix dua konsep dalam satu video</li>
+      <li>Siapkan pencahayaan yang tenang — tidak perlu studio, tapi hindari terlalu terang / overexposed</li>
+      <li>Tidak perlu background musik uplifting — silent atau ambient rendah lebih kuat</li>
+      <li>Kalau talking head — tatap kamera langsung, bukan baca teleprompter secara kaku</li>
+      <li>Durasi tidak lebih dari 30 detik — idealnya 15–25 detik</li>
+      <li>Rekam dalam format vertikal 9:16 untuk Reels</li>
+      <li>Kirim raw footage sebelum di-edit untuk review angle dan tone</li>
+    </ul>
+  </div>
+
+  <hr>
+
+  <div class="slabel">UTM tracking per konsep</div>
+  <p style="font-size:13px;margin-bottom:12px">Setiap konsep harus pakai UTM yang berbeda supaya bisa diukur mana yang paling convert.</p>
+  <table class="utm-table">
+    <tr><th>Konsep</th><th>Variasi</th><th>utm_content</th></tr>
+    <tr><td>A — Pain</td><td>A1 Keluarga</td><td>pain-keluarga-banding</td></tr>
+    <tr><td>A — Pain</td><td>A2 Pertemanan</td><td>pain-circle-beda</td></tr>
+    <tr><td>B — Fitur</td><td>B1 AI Personal</td><td>fitur-ai-personal</td></tr>
+    <tr><td>B — Fitur</td><td>B2 Free vs Premium</td><td>fitur-premium-unlock</td></tr>
+    <tr><td>C — Identitas</td><td>C1 Dari bingung ke clarity</td><td>identitas-clarity</td></tr>
+    <tr><td>C — Identitas</td><td>C2 Dini hari</td><td>identitas-dinihari</td></tr>
+  </table>
+
+  <hr>
+
+  <div class="slabel">Urutan testing yang disarankan</div>
+  <ul class="timeline">
+    <li>
+      <div class="tl-dot">1</div>
+      <div class="tl-content">
+        <div class="tl-title">Minggu 1–2: Test A2 + C2</div>
+        <div class="tl-desc">Mulai dari Pertemanan (A2) dan Dini Hari (C2). Keduanya paling universal — tidak menyentuh keluarga yang lebih sensitif. Ukur stop-rate dan CTR dulu sebelum lihat conversion.</div>
+      </div>
+    </li>
+    <li>
+      <div class="tl-dot">2</div>
+      <div class="tl-content">
+        <div class="tl-title">Minggu 2–3: Test A1 + B1</div>
+        <div class="tl-desc">Masukkan Keluarga (A1) dan AI Personal (B1). Bandingkan performa dengan batch pertama. Yang kalah, stop. Yang menang, scale.</div>
+      </div>
+    </li>
+    <li>
+      <div class="tl-dot">3</div>
+      <div class="tl-content">
+        <div class="tl-title">Minggu 3–4: Scale winner + test B2 + C1</div>
+        <div class="tl-desc">Naikkan budget untuk variasi terbaik. Tambahkan B2 (Free vs Premium) khusus untuk retargeting user free, dan C1 untuk cold audience baru.</div>
+      </div>
+    </li>
+    <li>
+      <div class="tl-dot">4</div>
+      <div class="tl-content">
+        <div class="tl-title">Minggu 4+: Iterasi berdasarkan data</div>
+        <div class="tl-desc">Buat variasi baru berdasarkan angle yang menang. Bukan tebak-tebakan — semua keputusan dari angka.</div>
+      </div>
+    </li>
+  </ul>
+
+  <hr>
+
+  <div class="slabel">Kontak & approval</div>
+  <div class="card-grid">
+    <div class="card-sm">
+      <h3 style="margin-bottom:6px">Sebelum publish</h3>
+      <p style="font-size:12px">Semua konten harus di-approve dulu sebelum tayang sebagai iklan. Kirim draft video (boleh belum final edit) untuk review tone dan messaging. Revisi maksimal 2 putaran.</p>
+    </div>
+    <div class="card-sm">
+      <h3 style="margin-bottom:6px">Yang dinilai saat review</h3>
+      <p style="font-size:12px">Tone sesuai brief (bukan hype), hook kuat di 3 detik pertama, tidak ada klaim berlebihan tentang VINGO, CTA jelas dan tidak agresif.</p>
+    </div>
+  </div>
+</div>
+
+<script>
+function show(id) {
+  document.querySelectorAll('.section').forEach(s => s.classList.remove('active'));
+  document.querySelectorAll('.nav-btn').forEach(b => b.classList.remove('active'));
+  document.getElementById(id).classList.add('active');
+  event.target.classList.add('active');
+  window.scrollTo({ top: 0, behavior: 'smooth' });
+}
+</script>
+</body>
+</html>
